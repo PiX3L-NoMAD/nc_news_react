@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import FancyBox from "./FancyBox";
 import { getAllArticles } from "../api/api";
+import { Link } from "react-router-dom";
 
 const ArticlesList = () => {
     const [articles, setArticles] = useState([]);
@@ -32,8 +33,15 @@ const ArticlesList = () => {
                 <ul className="list">
                     {articles.map((article) => {
                         return (
-                            <FancyBox key={article.article_id} title={article.title} body={"Written by " + article.author} image={article.article_img_url}>
-                            </FancyBox> 
+                            <li key={article.article_id} >
+                                <Link to={`/articles/${article.article_id}`} >
+                                    <FancyBox 
+                                        title={article.title}
+                                        image={article.article_img_url}
+                                        metadata={`Written by ${article.author}`}
+                                    /> 
+                                </Link>
+                            </li>
                         )
                     })}
                 </ul>
