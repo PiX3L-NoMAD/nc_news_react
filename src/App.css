@@ -1,42 +1,93 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f4e1d2;
+  color: #e6a37c;
+  box-sizing: border-box;
+  line-height: 1.6;
+  width: 100%;
+  overflow-x: hidden;
+  padding: 6rem 5%;
+}
+
+.header {
+  background: linear-gradient(45deg, #ee8778, #f9c196);
+  padding: 6rem 5%;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.header > h1 {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-size: 4rem;
+  text-align: center;
+  color: #4a4a4a;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav {
+  background-color: #ee867856;
+  border: 1px solid rgba(128, 0, 128, 0.632);
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  justify-content: center;
+  margin-top: 5rem;
+  font-size: x-large;
+  gap: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.main {
+  padding: 3rem 5%;
+  display: grid;
+  background-color: #f4e1d2;
+  color: #563426;
+  gap: 1.5rem;
 }
 
-.card {
-  padding: 2em;
+.list {
+  display: grid;
+  align-items: center;
+  padding: 2rem;
+  gap: 1.5rem;
 }
 
-.read-the-docs {
-  color: #888;
+.fancybox {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin: 2rem auto;
+  max-width: 400px;
+  padding: 1rem;
+  text-align: center;
+  background: linear-gradient(135deg, #f9c196, #ee8778);
+}
+
+.fancybox-title {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  color: #3e3e5f;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.fancybox-body {
+  padding: 1rem;
+  color: #555555;
+}
+
+.fancybox-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.footer {
+  background-color: #2e2e46;
+  color: #ffffff;
+  text-align: center;
+  padding: 1rem;
 }
