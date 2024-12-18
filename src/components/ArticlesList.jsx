@@ -7,10 +7,12 @@ const ArticlesList = () => {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
+    const [statusMsg, setStatusMsg] = useState("");
 
     useEffect(() => {
-        setLoading(true);
         setError(false);
+        setLoading(true);
+        setStatusMsg("Loading articles...")
 
         getAllArticles().then((articlesData) => {
             setArticles(articlesData);
@@ -19,33 +21,31 @@ const ArticlesList = () => {
         .catch(() => {
             setLoading(false);
             setError(true);
+            setStatusMsg("Unable to load articles. Try again later.")
         })
     }, [])
 
+    if (error || loading) {
+        return statusMsg;
+    }
 
     return (
         <>
-        {loading? (
-            <p>Loading articles...</p>
-        ) : error ? (
-            <p>There has been an error fetching the articles.</p>
-        ) : (
-                <ul className="list">
-                    {articles.map((article) => {
-                        return (
-                            <li key={article.article_id} >
-                                <Link to={`/articles/${article.article_id}`} >
-                                    <FancyBox 
-                                        title={article.title}
-                                        image={article.article_img_url}
-                                        metadata={`Written by ${article.author}`}
-                                    /> 
-                                </Link>
-                            </li>
-                        )
-                    })}
-                </ul>
-            )}
+            <ul className="list">
+                {articles.map((article) => {
+                    return (
+                        <li key={article.article_id} >
+                            <Link to={`/articles/${article.article_id}`} >
+                                <FancyBox 
+                                    title={article.title}
+                                    image={article.article_img_url}
+                                    metadata={`Written by ${article.author}`}
+                                /> 
+                            </Link>
+                        </li>
+                    )
+                })}
+            </ul>
         </>
     )
 }

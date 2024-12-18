@@ -25,6 +25,13 @@ export const getCommentsByArticleId = (articleId) => {
     })
 }
 
+export const postCommentByArticleId = (articleId, newComment) => {
+    return api.post(`articles/${articleId}/comments`, newComment)
+    .then(({ data }) => {
+        return data.comment;
+    })
+}
+
 export const patchVotesByArticleId = (articleId, inc_votes) => {
     return api.patch(`articles/${articleId}`, {inc_votes})
     .then(({ data }) => {
