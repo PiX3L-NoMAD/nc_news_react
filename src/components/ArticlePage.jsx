@@ -1,4 +1,4 @@
-import DateObject from "react-date-object";
+import { formatDate } from "../utils/formatDate";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getArticleById, patchVotesByArticleId } from "../api/api";
@@ -28,7 +28,7 @@ const ArticlePage = () => {
             setError(true);
             setStatusMsg("Error loading article.")
         })
-    }, [votes])
+    }, [articleId, votes])
     
     const handleUpVote = () => {
         setVotes((currentVotes) => currentVotes + 1);
@@ -69,9 +69,6 @@ const ArticlePage = () => {
     const toggleShowComments = () => {
         setShowComments((currOpen) => !currOpen);
     }
-    
-    let date = new DateObject(article.created_at);
-    date = date.format("YYYY/MM/DD hh:mm");
 
     if (loading || error) {
         return statusMsg;
@@ -93,7 +90,7 @@ const ArticlePage = () => {
                         <p>{`Written by ${article.author}`}</p>
                     </li>
                     <li>
-                        <p>{date}</p>
+                        <p>{formatDate(article.created_at)}</p>
                     </li>
                 </ul>
                 <p className="articlebox-body">{article.body}</p>
