@@ -4,10 +4,17 @@ const api = axios.create({
     baseURL: 'https://janilees-northcoders-project.onrender.com/api'
 })
 
-export const getAllArticles = () => {
-    return api.get('/articles')
+export const getAllArticles = (topic) => {
+    return api.get('/articles', { params: { topic: topic } })
     .then(({ data }) => {
         return data.articles;
+    })
+}
+
+export const getAllTopics = () => {
+    return api.get('/topics')
+    .then(({ data }) => {
+        return data.topics;
     })
 }
 
@@ -15,6 +22,13 @@ export const getArticleById = (articleId) => {
     return api.get(`articles/${articleId}`)
     .then(({ data }) => {
         return data.article;
+    })
+}
+
+export const getArticlesByTopic = (slug) => {
+    return api.get(`/articles?topic=${slug}`)
+    .then(({ data }) => {
+        return data.articles;
     })
 }
 

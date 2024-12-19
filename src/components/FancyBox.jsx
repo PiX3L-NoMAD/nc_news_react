@@ -1,7 +1,7 @@
 const FancyBox = ({ title, body, image, metadata, date }) => {
     return (
         <div className="fancybox">
-            <div className="fancybox-image">
+            <div>
                 {image && <img src={image} alt={title} className="fancybox-image"/>}
             </div>
             <h3 className="fancybox-title">{title}</h3>
