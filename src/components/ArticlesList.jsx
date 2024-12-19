@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import FancyBox from "./FancyBox";
-import { getAllArticles } from "../api/api";
+import { getAllArticles, getArticlesByTopic } from "../api/api";
 import { Link } from "react-router-dom";
+import FancyBox from "./FancyBox";
 
-const ArticlesList = () => {
+const ArticlesList = ({ topic }) => {
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
@@ -14,7 +14,8 @@ const ArticlesList = () => {
         setLoading(true);
         setStatusMsg("Loading articles...")
 
-        getAllArticles().then((articlesData) => {
+        getAllArticles(topic)
+        .then((articlesData) => {
             setArticles(articlesData);
             setLoading(false);
         })
@@ -23,7 +24,7 @@ const ArticlesList = () => {
             setError(true);
             setStatusMsg("Unable to load articles. Try again later.")
         })
-    }, [])
+    }, [topic]);
 
     if (error || loading) {
         return statusMsg;
