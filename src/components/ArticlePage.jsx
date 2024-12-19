@@ -2,7 +2,7 @@ import { formatDate } from "../utils/formatDate";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getArticleById, patchVotesByArticleId } from "../api/api";
-import CommentsList from "./CommentsList";
+import CommentsList from "./CommentList";
 
 const ArticlePage = () => {
     const { articleId } = useParams();
@@ -28,43 +28,20 @@ const ArticlePage = () => {
             setError(true);
             setStatusMsg("Error loading article.")
         })
-    }, [articleId, votes])
+    }, [articleId])
     
-    const handleUpVote = () => {
-        setVotes((currentVotes) => currentVotes + 1);
-        setLoading(true);
+    const handleVote = (change) => {
+        setVotes((currentVotes) => currentVotes + change);
         setError(false);
         
-        patchVotesByArticleId(articleId, 1)
-        .then((updatedArticle) => {
-            setArticle(updatedArticle);
-            setVotes(updatedArticle.votes);
-            setLoading(false);
-        })
+        patchVotesByArticleId(articleId, change)
         .catch(() => {
             setLoading(false);
             setError(true);
             setStatusMsg("Error updating votes. Try again later.")
+            setVotes((currentVotes) => currentVotes - change);
         })
     };
-    
-    const handleDownVote = () => {
-        setVotes((currentVotes) => currentVotes - 1);
-        setLoading(true);
-        setError(false);
-        
-        patchVotesByArticleId(articleId, -1)
-        .then((updatedArticle) => {
-            setArticle(updatedArticle);
-            setVotes(updatedArticle.votes);
-            setLoading(false);
-        })
-        .catch(() => {
-            setLoading(false);
-            setError(true);
-            setStatusMsg("Error updating votes. Try again later.")
-        })
-    }
     
     const toggleShowComments = () => {
         setShowComments((currOpen) => !currOpen);
@@ -95,8 +72,10 @@ const ArticlePage = () => {
                 </ul>
                 <p className="articlebox-body">{article.body}</p>
                 <div className="articlebox-social-icons">
-                    <i className="fa fa-thumbs-up" onClick={handleUpVote}>{` ${votes}`}</i>
-                    <i className="fa fa-thumbs-down" onClick={handleDownVote}/>
+                    <div className="vote-icons">
+                        <i className="fa fa-thumbs-up" onClick={(() => handleVote(1))}>{` ${votes}`}</i>
+                        <i className="fa fa-thumbs-down" onClick={(() => handleVote(-1))}/>
+                    </div>
                     <i className="fa fa-comment" onClick={toggleShowComments}>{` ${article.comment_count || '0'}`}</i>
                 </div>
                 <div className={`comments-container ${showComments ? 'slide-in' : 'slide-out'}`}>

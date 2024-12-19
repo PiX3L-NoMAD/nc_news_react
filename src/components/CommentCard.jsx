@@ -1,8 +1,18 @@
 import { formatDate } from "../utils/formatDate";
+import DeleteComment from "./DeleteComment";
 
-const CommentCard = ({comment}) => {
+const CommentCard = ({comment, onDelete}) => {
+
+    const user = "weegembump";
+
     return (
         <div className="comment-card">
+            {comment.author === user && (
+                <DeleteComment 
+                    commentId={comment.comment_id} 
+                    onDelete={onDelete}
+                />
+            )}
             <div className="comment-username">
                 <i className="fa fa-user">{` ${comment.author}`}</i>
             </div>
