@@ -30,6 +30,7 @@ const AddComment = ({ articleId, addNewComment }) => {
                 setError(true);
                 setStatusMsg("Error posting comment. Try again later.")
             })
+        reset();
     }
 
     if (loading || error) {
