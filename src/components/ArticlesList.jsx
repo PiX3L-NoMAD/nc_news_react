@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { getAllArticles, getArticlesByTopic } from "../api/api";
+import { getArticles } from "../api/api";
 import { Link } from "react-router-dom";
 import FancyBox from "./FancyBox";
+import FilterArticles from "./FilterArticles";
 
 const ArticlesList = ({ topic }) => {
     const [articles, setArticles] = useState([]);
+    const [sortBy, setSortBy] = useState("created_at");
+    const [order, setOrder] = useState("DESC");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [statusMsg, setStatusMsg] = useState("");
@@ -14,7 +17,7 @@ const ArticlesList = ({ topic }) => {
         setLoading(true);
         setStatusMsg("Loading articles...")
 
-        getAllArticles(topic)
+        getArticles(sortBy, order, topic)
         .then((articlesData) => {
             setArticles(articlesData);
             setLoading(false);
@@ -24,14 +27,30 @@ const ArticlesList = ({ topic }) => {
             setError(true);
             setStatusMsg("Unable to load articles. Try again later.")
         })
-    }, [topic]);
+    }, [sortBy, order, topic]);
+
+    const handleSortByChange = (sortByChoice) => {
+        setSortBy(sortByChoice);
+    };
+
+    const handleOrderChange = (orderChoice) => {
+        setOrder(orderChoice);
+    };
 
     if (error || loading) {
         return statusMsg;
-    }
+    };
 
     return (
         <>
+        <div className="filtering-bar">
+            <FilterArticles 
+                sortBy={sortBy}
+                order={order}
+                onSortByChange={handleSortByChange} 
+                onOrderChange={handleOrderChange}
+            />
+        </div>
             <ul className="list">
                 {articles.map((article) => {
                     return (
@@ -40,7 +59,11 @@ const ArticlesList = ({ topic }) => {
                                 <FancyBox 
                                     title={article.title}
                                     image={article.article_img_url}
-                                    metadata={`Written by ${article.author}`}
+                                    date={article.created_at}
+                                    topic={article.topic}
+                                    author={article.author}
+                                    votes={article.votes}
+                                    commentCount={article.comment_count}
                                 /> 
                             </Link>
                         </li>
@@ -49,6 +72,6 @@ const ArticlesList = ({ topic }) => {
             </ul>
         </>
     )
-}
+};
 
 export default ArticlesList;
