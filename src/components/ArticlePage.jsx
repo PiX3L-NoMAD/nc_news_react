@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getArticleById, patchVotesByArticleId } from "../api/api";
 import CommentsList from "./CommentList";
+import Voting from "./Voting";
 
 const ArticlePage = () => {
     const { articleId } = useParams();
@@ -30,13 +31,11 @@ const ArticlePage = () => {
         })
     }, [articleId])
     
-    const handleVote = (change) => {
-        setVotes((currentVotes) => currentVotes + change);
+    const handleChange = (change) => {
         setError(false);
         
         patchVotesByArticleId(articleId, change)
         .catch(() => {
-            setLoading(false);
             setError(true);
             setStatusMsg("Error updating votes. Try again later.")
             setVotes((currentVotes) => currentVotes - change);
@@ -71,12 +70,11 @@ const ArticlePage = () => {
                     </li>
                 </ul>
                 <p className="articlebox-body">{article.body}</p>
-                <div className="articlebox-social-icons">
-                    <div className="vote-icons">
-                        <i className="fa fa-thumbs-up" onClick={(() => handleVote(1))}>{` ${votes}`}</i>
-                        <i className="fa fa-thumbs-down" onClick={(() => handleVote(-1))}/>
+                <div className="social-icons">
+                    <Voting currVotes={votes} onChange={handleChange}/>
+                    <div className="comment-icon">
+                        <i className="fa fa-comment" onClick={toggleShowComments}>{` ${article.comment_count || '0'}`}</i>
                     </div>
-                    <i className="fa fa-comment" onClick={toggleShowComments}>{` ${article.comment_count || '0'}`}</i>
                 </div>
                 <div className={`comments-container ${showComments ? 'slide-in' : 'slide-out'}`}>
                     {showComments && <CommentsList articleId={articleId} />}
