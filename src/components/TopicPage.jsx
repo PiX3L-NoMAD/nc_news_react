@@ -6,10 +6,16 @@ const TopicPage = () => {
 
     return (
         <>
-            <h2>{topic.toUpperCase()}</h2>
-            <ArticlesList topic={topic}/>
+            <h2 
+                className="font-nunito text-3xl font-bold text-gray-800 mb-6 text-center"
+                style={{ fontFamily: "Georgia, serif" }}
+            >
+                Viewing all articles for{" "}
+                <strong className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{topic.toUpperCase()}</strong>
+            </h2>
+            <ArticlesList topic={topic} />
         </>
-    )
-}
+    );
+};
 
 export default TopicPage;
