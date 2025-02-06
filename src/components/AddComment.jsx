@@ -39,35 +39,38 @@ const AddComment = ({ articleId, addNewComment }) => {
 
     return (
         <>
-            <form onSubmit={handleSubmit(onSubmit)} className="comment-form">
-                <label>
-                    <p> 
-                        {"Commenting as "}
-                        <i className="fa fa-user"> 
-                            {` ${user}: `} 
-                        </i>
+        <form className="mb-6 font-nunito" onSubmit={handleSubmit(onSubmit)}>
+        <label>
+    <p className="text-sm mb-2 text-gray-700 flex items-center">
+        <i className="fa fa-user text-blue-500 mr-2" />
+        <span className="font-semibold">{`Commenting as ${user}:`}</span>
+    </p>
+</label>
+            <div className="py-2 px-4 mb-4 bg-gray-50 rounded-lg rounded-t-lg border border-gray-200">
+                <label htmlFor="comment" className="sr-only">Your comment</label>
+                <textarea id="comment" rows="5"
+                    className="px-0 w-full text-sm bg-gray-50 text-gray-900 border-0 focus:ring-0 focus:outline-none"
+                    placeholder="Write a comment..." 
+                    {...register("newComment", {
+                        required: "Input cannot be empty",
+                        minLength: {
+                            value: 3,
+                            message: "Input must be at least 3 characters long"
+                        }
+                    })}
+                    required>
+                </textarea>
+                {errors.newComment && (
+                    <p className="error-message">
+                        {errors.newComment.message}
                     </p>
-                    <input
-                        {...register("newComment", {
-                            required: "Input cannot be empty",
-                            minLength: {
-                                value: 3,
-                                message: "Input must be at least 3 characters long"
-                            }
-                        })}
-                        placeholder="Your comment here..."
-                    />
-                    {errors.newComment && (
-                        <p className="error-message">
-                            {errors.newComment.message}
-                        </p>
-                    )}
-                </label>
-                <br />
-                <button type="submit" className="comment-btn">
-                    Comment
-                </button>
-            </form>
+                )}
+            </div>
+            <button type="submit"
+                className="inline-flex items-center py-2.5 px-4 text-xs font-bold text-center text-white bg-gradient-to-r from-blue-500 via-white-500 to-pink-500 rounded-lg focus:ring-4 focus:ring-primary-200 hover:bg-primary-800 hover:scale-105 transition-all duration-300 ease-in-out">
+                Comment
+            </button>
+        </form>
         </>
     )
 }

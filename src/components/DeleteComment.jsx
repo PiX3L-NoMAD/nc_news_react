@@ -11,7 +11,10 @@ const DeleteComment = ({ commentId, onDelete }) => {
     const handleDelete = () => {
         setError(false);
         setLoading(true);
-        setStatusMsg("Deleting comment...")
+        
+        setTimeout(() => {
+            setStatusMsg("Deleting comment...", 3000)
+        });
         
         deleteCommentByCommentId(commentId, user)
         .then(() => {
@@ -21,18 +24,23 @@ const DeleteComment = ({ commentId, onDelete }) => {
         .catch(() => {
             setLoading(false);
             setError(true);
-            setStatusMsg("Unable to delete comment. Try again later.") 
+            setStatusMsg(" Unable to delete comment. Try again later.") 
         })
     }
     
     if (error || loading) {
-        return statusMsg
+        return (
+            <p className="text-sm ml-2 text-red-500">
+                {statusMsg}
+            </p>
+        );
     };
 
     return (
         <>
-            <button onClick={handleDelete} className="delete-btn">
-                DELETE
+            <button onClick={() => handleDelete(comment.commentId)}>
+                {console.log(commentId)}
+                <i className="flex flex-row fa fa-trash mx-2 text-sm text-gray-500 gap-1"><p className="font-nunito flex items-center text-sm text-gray-500 hover:underlin font-medium">Delete</p></i>
             </button>
         </>
     )

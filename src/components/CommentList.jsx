@@ -52,21 +52,25 @@ const CommentList = ({ articleId }) => {
     };
 
     return (
-        <>
-            <ul className="comments-list">
-                <AddComment articleId={articleId} addNewComment={addNewComment}/>
-                {commentDeleted && statusMsg}
-                {comments.map((comment) => {
-                    return (
-                        <li key={comment.comment_id} >
-                            <CommentCard comment={comment}
-                            onDelete={deleteComment}
-                            />
-                        </li>
-                    )
-                })}
-            </ul>
-        </>
+        <section className="bg-white py-8 lg:py-16 antialiased">
+            <div className="max-w-2xl mx-auto px-4">
+                <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-lg lg:text-2xl font-bold text-gray-900">Discussion ({comments.length})</h2>
+                </div>
+                
+                <ul className="comments-list">
+                    <AddComment articleId={articleId} addNewComment={addNewComment} />
+                    {commentDeleted && statusMsg}
+                    {comments.map((comment) => {
+                        return (
+                            <li key={comment.comment_id} className="mb-4">
+                                <CommentCard comment={comment} onDelete={deleteComment} />
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        </section>
     )
 }
 

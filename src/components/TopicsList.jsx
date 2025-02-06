@@ -1,53 +1,46 @@
+import TopicCard from "./TopicCard";
 import { useEffect, useState } from "react";
-import FancyBox from "./FancyBox";
 import { getAllTopics } from "../api/api";
 import { Link } from "react-router-dom";
+import { faker } from "@faker-js/faker";
 
 const TopicsList = () => {
     const [topics, setTopics] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(false);
-    const [statusMsg, setStatusMsg] = useState("");
+    const [topicsWithImages, setTopicsWithImages] = useState([]);
 
     useEffect(() => {
-        setError(false);
-        setLoading(true);
-        setStatusMsg("Loading topics...")
-
         getAllTopics()
-        .then((topicsData) => {
-            setTopics(topicsData);
-            setLoading(false);
-        })
-        .catch(() => {
-            setLoading(false);
-            setError(true);
-            setStatusMsg("Unable to load topics. Try again later.")
-        })
-    }, [])
+            .then((topicsData) => {
+                setTopics(topicsData);
 
-    if (error || loading) {
-        return statusMsg;
-    }
+                const topicsWithImagesData = topicsData.map((topic) => ({
+                    ...topic,
+                    image: faker.image.url({
+                        category: "sports",
+                        width: 400,
+                        height: 400,
+                    }),
+                }));
+
+            setTopicsWithImages(topicsWithImagesData);
+        });
+    }, []);
 
     return (
-        <>
-            <ul className="list">
-                {topics.map((topic) => {
-                    return (
-                        <li key={topic.slug} >
-                            <Link to={`/topics/${topic.slug}`} >
-                                <FancyBox 
-                                    title={topic.slug.toUpperCase()}
-                                    body={`Written by ${topic.description}`}
-                                /> 
-                            </Link>
-                        </li>
-                    )
-                })}
-            </ul>
-        </>
-    )
-}
+        <ul className="justify-center grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {topicsWithImages.map((topic) => (
+                <li key={topic.slug}>
+                    <Link to={`/topics/${topic.slug}`}>
+                        <TopicCard
+                            image={topic.image}
+                            slug={topic.slug.toUpperCase()}
+                            body={topic.description}
+                        />
+                    </Link>
+                </li>
+            ))}
+        </ul>
+    );
+};
 
 export default TopicsList;
